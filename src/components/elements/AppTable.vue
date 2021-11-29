@@ -2,14 +2,29 @@
   <table class="table">
     <thead>
       <tr class="table__header">
-        <th class="table__head" v-for="(column, index) in columns" :key="index">
+        <th
+          class="table__head"
+          v-for="(column, index) in columns"
+          :key="index"
+          data-test="column"
+        >
           {{ column.value }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="table__row" v-for="(row, index) in rows" :key="index">
-        <td class="table__cell" v-for="(cell, i) in row.cells" :key="i">
+      <tr
+        class="table__row"
+        v-for="(row, index) in rows"
+        :key="index"
+        data-test="row"
+      >
+        <td
+          class="table__cell"
+          v-for="(cell, i) in row.cells"
+          :key="i"
+          data-test="cell"
+        >
           {{ cell.value }}
         </td>
       </tr>
