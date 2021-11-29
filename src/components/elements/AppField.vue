@@ -3,6 +3,7 @@
     <input
       class="app-field__input"
       type="text"
+      data-test="input"
       :value="modelValue"
       :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)"
