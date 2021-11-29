@@ -1,15 +1,20 @@
 <template>
   <div class="app-dropdown" :class="{ 'is-open': isOpen }">
-    <div class="app-dropdown__placeholder" @click="toggleItems">
+    <div
+      class="app-dropdown__placeholder"
+      @click="toggleItems"
+      data-test="placeholder"
+    >
       {{ toShow(modelValue) || placeholder }}
       <chevron-down-icon class="app-dropdown__arrow" />
     </div>
     <transition name="toggle" duration="200">
-      <ul class="app-dropdown__list" v-if="isOpen">
+      <ul class="app-dropdown__list" v-if="isOpen" data-test="list">
         <li
           class="app-dropdown__item"
           v-for="(item, index) in showedItems"
           :key="index"
+          data-test="item"
           @click="selectHandler(item)"
         >
           {{ toShow(item) }}
@@ -28,6 +33,8 @@ export default {
   components: {
     ChevronDownIcon,
   },
+
+  emits: ["update:modelValue"],
 
   props: {
     items: {
