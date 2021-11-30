@@ -8,6 +8,7 @@
               <app-dropdown
                 class="home__field home__dropdown"
                 placeholder="Колонка"
+                data-test="column-filter"
                 :items="filterColumnList"
                 :toShow="(column) => column.value"
                 v-model="filter.column"
@@ -15,6 +16,7 @@
               <transition-group name="scale" duration="300">
                 <app-dropdown
                   v-if="filter.column"
+                  data-test="condition-filter"
                   class="home__field home__dropdown"
                   placeholder="Фильтр"
                   :items="conditionFilter"
@@ -24,16 +26,29 @@
                 <app-field
                   class="home__field"
                   v-if="filter.column && filter.condition"
+                  data-test="input-filter"
                   placeholder="Значение"
                   v-model="filter.value"
                 />
-                <app-button @clickButton="resetFilter" v-if="isFilter"
+                <app-button
+                  @clickButton="resetFilter"
+                  v-if="isFilter"
+                  data-test="reset-button"
                   >Сбросить</app-button
                 >
               </transition-group>
             </div>
-            <app-table :columns="columns" :rows="slicedItems" />
-            <div class="home__empty" v-if="!slicedItems.length">
+            <app-table
+              :columns="columns"
+              :rows="filteredItems"
+              :limit="LIMIT"
+              :activePage="activePage"
+            />
+            <div
+              class="home__empty"
+              v-if="!filteredItems.length"
+              data-test="empty"
+            >
               Список пуст
             </div>
           </div>
@@ -116,14 +131,6 @@ export default {
     isFilter() {
       // имеется ли хоть один заполненный фильтр
       return Object.values(this.filter).some((item) => item);
-    },
-
-    slicedItems() {
-      // обрезание отфильтрованного массива таблицы по лимиту
-      return this.filteredItems.slice(
-        this.LIMIT * this.activePage - this.LIMIT,
-        this.LIMIT * this.activePage
-      );
     },
 
     filteredItems() {

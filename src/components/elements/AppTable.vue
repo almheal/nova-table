@@ -16,14 +16,15 @@
       <tbody>
         <tr
           class="table__row"
-          v-for="(row, index) in rows"
+          v-for="(row, index) in tableRows"
           :key="index"
           data-test="row"
         >
           <td
             class="table__cell"
-            v-for="(cell, i) in row.cells"
+            v-for="(cell, key, i) in row.cells"
             :key="i"
+            :data-id="key"
             data-test="cell"
           >
             {{ cell.value }}
@@ -46,6 +47,28 @@ export default {
     rows: {
       type: Array,
       default: () => [],
+    },
+    limit: {
+      type: [String, Number],
+      default: "",
+    },
+    activePage: {
+      type: [String, Number],
+      default: "",
+    },
+  },
+
+  computed: {
+    tableRows() {
+      if (!this.limit || !this.activePage) {
+        return this.rows;
+      }
+
+      // обрезание массива если имеется limit и active page
+      return this.rows.slice(
+        this.limit * this.activePage - this.limit,
+        this.limit * this.activePage
+      );
     },
   },
 };

@@ -16,6 +16,14 @@ describe("App table", () => {
     },
     { cells: { date: { value: "2" } } },
     { cells: { date: { value: "3" } } },
+    { cells: { date: { value: "4" } } },
+    { cells: { date: { value: "5" } } },
+    { cells: { date: { value: "6" } } },
+    { cells: { date: { value: "7" } } },
+    { cells: { date: { value: "8" } } },
+    { cells: { date: { value: "9" } } },
+    { cells: { date: { value: "10" } } },
+    { cells: { date: { value: "11" } } },
   ];
 
   const DEFAULT_COLUMNS = [{ value: "value-1" }, { value: "value-2" }];
@@ -64,5 +72,18 @@ describe("App table", () => {
     const cell = findItemByContent(DATA_CELL, DEFAULT_ROWS[0].cells.date.value);
 
     expect(cell?.exists()).toBe(true);
+  });
+
+  it("rows rendered by limit", () => {
+    const LIMIT = 10;
+    createComponent({
+      rows: DEFAULT_ROWS,
+      limit: LIMIT,
+      activePage: 1,
+    });
+
+    const rows = wrapper.findAll(DATA_ROW);
+
+    expect(rows).toHaveLength(LIMIT);
   });
 });
