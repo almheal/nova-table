@@ -2,6 +2,7 @@
   <div class="app-pagination">
     <button
       class="app-pagination__button"
+      data-test="previous"
       :class="{ 'is-disabled': Number(activePage) === 1 }"
       @click="
         changePage(Number(activePage) === 1 ? activePage : activePage - 1)
@@ -16,6 +17,7 @@
       class="app-pagination__button"
       v-for="pageNumber in pages"
       :key="pageNumber"
+      data-test="button"
       :class="{ 'is-active': pageNumber === Number(activePage) }"
       @click="changePage(pageNumber)"
     >
@@ -24,6 +26,7 @@
 
     <button
       class="app-pagination__button"
+      data-test="next"
       :class="{ 'is-disabled': Number(activePage) === pages }"
       @click="
         changePage(

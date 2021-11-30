@@ -33,6 +33,9 @@
               </transition-group>
             </div>
             <app-table :columns="columns" :rows="slicedItems" />
+            <div class="home__empty" v-if="!slicedItems.length">
+              Список пуст
+            </div>
           </div>
 
           <div class="home__pagination">
@@ -121,13 +124,13 @@ export default {
       }
 
       return this.TABLE_ITEMS.filter((item) =>
-        this.filterItem(item.cells[this.filter.column.filterProperty].value)
+        this.filterValue(item.cells[this.filter.column.filterProperty].value)
       );
     },
   },
 
   methods: {
-    filterItem(value) {
+    filterValue(value) {
       switch (this.filter.condition.filterName) {
         case "equal":
           return this.filter.value.toLowerCase() === value.toLowerCase();
@@ -169,6 +172,18 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
+    height: 688px;
+  }
+
+  &__table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+  }
+
+  &__empty {
+    @include flex-center;
+    flex: 1 1 0;
   }
 
   &__field {

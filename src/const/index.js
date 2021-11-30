@@ -8,7 +8,7 @@ export const TABLE_ITEMS = [
         value: "Название",
       },
       count: {
-        value: "10",
+        value: "134",
       },
       distance: {
         value: "1000см",
@@ -24,7 +24,7 @@ export const TABLE_ITEMS = [
         value: "Названи3е",
       },
       count: {
-        value: "10",
+        value: "1540",
       },
       distance: {
         value: "1000см",
@@ -40,7 +40,7 @@ export const TABLE_ITEMS = [
         value: "Назван2ие",
       },
       count: {
-        value: "10",
+        value: "50",
       },
       distance: {
         value: "1000см",
@@ -56,7 +56,7 @@ export const TABLE_ITEMS = [
         value: "Назваfние",
       },
       count: {
-        value: "10",
+        value: "23",
       },
       distance: {
         value: "1000см",
@@ -72,7 +72,7 @@ export const TABLE_ITEMS = [
         value: "Назваfewние",
       },
       count: {
-        value: "10",
+        value: "42",
       },
       distance: {
         value: "1000см",
@@ -88,7 +88,7 @@ export const TABLE_ITEMS = [
         value: "Назвfewание",
       },
       count: {
-        value: "10",
+        value: "42",
       },
       distance: {
         value: "1000см",
@@ -104,7 +104,7 @@ export const TABLE_ITEMS = [
         value: "Назвfewwwание",
       },
       count: {
-        value: "10",
+        value: "12",
       },
       distance: {
         value: "1000см",
@@ -120,7 +120,7 @@ export const TABLE_ITEMS = [
         value: "Назва1233ние",
       },
       count: {
-        value: "10",
+        value: "15",
       },
       distance: {
         value: "1000см",
@@ -136,7 +136,7 @@ export const TABLE_ITEMS = [
         value: "Назваqweqewqние",
       },
       count: {
-        value: "10",
+        value: "17",
       },
       distance: {
         value: "1000см",
@@ -152,7 +152,7 @@ export const TABLE_ITEMS = [
         value: "Назвhrhtrание",
       },
       count: {
-        value: "10",
+        value: "19",
       },
       distance: {
         value: "1000см",
