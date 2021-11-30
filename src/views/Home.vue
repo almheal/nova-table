@@ -57,7 +57,7 @@ import AppDropdown from "@/components/elements/AppDropdown";
 import AppField from "@/components/elements/AppField";
 import AppButton from "@/components/elements/AppButton";
 import AppPagination from "@/components/elements/AppPagination";
-import { TABLE_ITEMS } from "@/const";
+import generateTableItems from "@/utils/genericTableItems";
 
 export default {
   name: "Home",
@@ -89,7 +89,6 @@ export default {
       { filterProperty: "distance", value: "Расстояние" },
     ],
     LIMIT: 10,
-    TABLE_ITEMS,
   }),
 
   watch: {
@@ -100,6 +99,10 @@ export default {
   },
 
   computed: {
+    tableItems() {
+      return this.generateTableItems(355);
+    },
+
     activePage() {
       // текущий номер страницы в роуте или в случае отсутствия по дефолту 1
       return this.$route.query.page || 1;
@@ -126,17 +129,18 @@ export default {
     filteredItems() {
       // если не все поля фильтров заполненны, возвращаем дефолтный массив
       if (!Object.values(this.filter).every((filter) => filter)) {
-        return this.TABLE_ITEMS;
+        return this.tableItems;
       }
 
       // фильтрация массива - filterProperty содержит название поля
-      return this.TABLE_ITEMS.filter((item) =>
+      return this.tableItems.filter((item) =>
         this.filterValue(item.cells[this.filter.column.filterProperty].value)
       );
     },
   },
 
   methods: {
+    generateTableItems,
     // проверка значения по выбранному фильтру
     filterValue(value) {
       switch (this.filter.condition.filterName) {
