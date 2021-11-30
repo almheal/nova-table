@@ -12,6 +12,7 @@
                 :items="filterColumnList"
                 :toShow="(column) => column.value"
                 v-model="filter.column"
+                @update:modelValue="resetPage"
               />
               <transition-group name="scale" duration="300">
                 <app-dropdown
@@ -22,6 +23,7 @@
                   :items="conditionFilter"
                   :toShow="(condition) => condition.value"
                   v-model="filter.condition"
+                  @update:modelValue="resetPage"
                 />
                 <app-field
                   class="home__field"
@@ -29,6 +31,7 @@
                   data-test="input-filter"
                   placeholder="Значение"
                   v-model="filter.value"
+                  @update:modelValue="resetPage"
                 />
                 <app-button
                   @clickButton="resetFilter"
@@ -106,13 +109,6 @@ export default {
     LIMIT: 10,
   }),
 
-  watch: {
-    "filter.value"() {
-      // при изменении значения текстового поля сбрасываем страницу на 1
-      this.$router.replace({ query: { ...this.$route.query, page: 1 } });
-    },
-  },
-
   computed: {
     tableItems() {
       return this.generateTableItems(355);
@@ -140,9 +136,11 @@ export default {
       }
 
       // фильтрация массива - filterProperty содержит название поля
-      return this.tableItems.filter((item) =>
-        this.filterValue(item.cells[this.filter.column.filterProperty].value)
-      );
+      return this.tableItems.filter((item) => {
+        return this.filterValue(
+          item.cells[this.filter.column.filterProperty].value
+        );
+      });
     },
   },
 
@@ -152,10 +150,14 @@ export default {
     filterValue(value) {
       switch (this.filter.condition.filterName) {
         case "equal":
-          return this.filter.value.toLowerCase() === value.toLowerCase();
+          return (
+            this.filter.value.toLowerCase() === String(value).toLowerCase()
+          );
 
         case "contain":
-          return value.toLowerCase().includes(this.filter.value.toLowerCase());
+          return String(value)
+            .toLowerCase()
+            .includes(this.filter.value.toLowerCase());
 
         case "larger":
           return Number(value) > Number(this.filter.value);
@@ -174,6 +176,17 @@ export default {
         acc[key] = "";
         return acc;
       }, {});
+    },
+
+    resetPage() {
+      if (
+        Number(this.activePage) === 1 ||
+        !this.filter.column ||
+        !this.filter.condition
+      ) {
+        return;
+      }
+      this.$router.replace({ query: { ...this.$route.query, page: 1 } });
     },
   },
 };
