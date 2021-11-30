@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/',
+  publicPath: "/",
   css: {
     loaderOptions: {
       sass: {
@@ -9,4 +9,4 @@ module.exports = {
       },
     },
   },
-}
+};
