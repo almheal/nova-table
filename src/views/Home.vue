@@ -3,10 +3,10 @@
     <div class="container">
       <div class="home__inner">
         <div class="home__body">
-          <div class="home__table">
+          <div class="home__wrapper">
             <div class="home__header">
               <app-dropdown
-                class="home__field"
+                class="home__field home__dropdown"
                 placeholder="Колонка"
                 :items="filterColumnList"
                 :toShow="(column) => column.value"
@@ -15,7 +15,7 @@
               <transition-group name="scale" duration="300">
                 <app-dropdown
                   v-if="filter.column"
-                  class="home__field"
+                  class="home__field home__dropdown"
                   placeholder="Фильтр"
                   :items="conditionFilter"
                   :toShow="(condition) => condition.value"
@@ -94,24 +94,29 @@ export default {
 
   watch: {
     "filter.value"() {
+      // при изменении значения текстового поля сбрасываем страницу на 1
       this.$router.replace({ query: { ...this.$route.query, page: 1 } });
     },
   },
 
   computed: {
     activePage() {
+      // текущий номер страницы в роуте или в случае отсутствия по дефолту 1
       return this.$route.query.page || 1;
     },
 
     filterColumnList() {
+      // массив колонок без даты
       return this.columns.filter((column) => column.filterProperty !== "date");
     },
 
     isFilter() {
+      // имеется ли хоть один заполненный фильтр
       return Object.values(this.filter).some((item) => item);
     },
 
     slicedItems() {
+      // обрезание отфильтрованного массива таблицы по лимиту
       return this.filteredItems.slice(
         this.LIMIT * this.activePage - this.LIMIT,
         this.LIMIT * this.activePage
@@ -119,10 +124,12 @@ export default {
     },
 
     filteredItems() {
+      // если не все поля фильтров заполненны, возвращаем дефолтный массив
       if (!Object.values(this.filter).every((filter) => filter)) {
         return this.TABLE_ITEMS;
       }
 
+      // фильтрация массива - filterProperty содержит название поля
       return this.TABLE_ITEMS.filter((item) =>
         this.filterValue(item.cells[this.filter.column.filterProperty].value)
       );
@@ -130,6 +137,7 @@ export default {
   },
 
   methods: {
+    // проверка значения по выбранному фильтру
     filterValue(value) {
       switch (this.filter.condition.filterName) {
         case "equal":
@@ -149,6 +157,7 @@ export default {
       }
     },
 
+    // сброс всех фильтров
     resetFilter() {
       this.filter = Object.keys(this.filter).reduce((acc, key) => {
         acc[key] = "";
@@ -164,6 +173,10 @@ export default {
   &__header {
     display: flex;
     padding: 20px 24px;
+
+    @media (max-width: 624px) {
+      flex-wrap: wrap;
+    }
   }
 
   &__body {
@@ -172,18 +185,11 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
-    height: 688px;
-  }
-
-  &__table {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 0;
   }
 
   &__empty {
-    @include flex-center;
-    flex: 1 1 0;
+    text-align: center;
+    padding: 24px 0;
   }
 
   &__field {
@@ -191,6 +197,37 @@ export default {
 
     &:last-child {
       margin-right: 0;
+    }
+
+    @media (max-width: 624px) {
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 420px) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
+  &__dropdown {
+    @media (max-width: 624px) {
+      width: calc(50% - 4px);
+      margin-right: 0;
+
+      &:nth-child(1) {
+        margin-right: 8px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      width: 100%;
+      &:nth-child(1) {
+        margin-right: 0;
+      }
     }
   }
 

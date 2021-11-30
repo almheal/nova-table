@@ -22,7 +22,12 @@ export default {
   background-color: #5e72e4;
   border-radius: 6px;
   color: #fff;
-  font-size: 14px;
+  font-size: 1em;
+
+  @media (max-width: 769px) {
+    width: 100px;
+    height: 38px;
+  }
 
   &::before {
     @include absolute-center;

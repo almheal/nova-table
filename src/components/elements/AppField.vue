@@ -33,11 +33,16 @@ export default {
 <style lang="scss" scoped>
 .app-field {
   &__input {
+    width: 100%;
     padding: 0 16px;
-    font-size: 14px;
+    font-size: 1em;
     border-radius: 6px;
     border: 1px solid #e9ecef;
     height: 44px;
+
+    @media (max-width: 769px) {
+      height: 40px;
+    }
   }
 }
 </style>

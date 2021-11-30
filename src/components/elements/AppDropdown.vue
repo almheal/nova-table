@@ -8,6 +8,7 @@
       {{ toShow(modelValue) || placeholder }}
       <chevron-down-icon class="app-dropdown__arrow" />
     </div>
+
     <transition name="toggle" duration="200">
       <ul class="app-dropdown__list" v-if="isOpen" data-test="list">
         <li
@@ -61,6 +62,7 @@ export default {
 
   computed: {
     showedItems() {
+      // если имеется выбранный элемент в таком случае не отображаем его в выпадающем списке
       return this.items.filter(
         (item) => this.toShow(item) !== this.toShow(this.modelValue)
       );
@@ -74,6 +76,7 @@ export default {
     },
 
     toggleItems() {
+      // если отсутствуют элементы - не открываем пустой выпадающий список
       if (!this.showedItems.length) {
         return;
       }
@@ -103,6 +106,11 @@ export default {
     height: 44px;
     min-width: 150px;
     cursor: pointer;
+
+    @media (max-width: 769px) {
+      min-width: 100px;
+      height: 40px;
+    }
   }
 
   &__arrow {
@@ -127,7 +135,7 @@ export default {
   }
 
   &__item {
-    padding: 13px 20px;
+    padding: 13px 16px;
     cursor: pointer;
     transition: background-color 0.3s;
 

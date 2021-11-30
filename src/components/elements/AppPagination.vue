@@ -15,10 +15,10 @@
 
     <button
       class="app-pagination__button"
-      v-for="pageNumber in pages"
+      v-for="pageNumber in paginationPages"
       :key="pageNumber"
       data-test="button"
-      :class="{ 'is-active': pageNumber === Number(activePage) }"
+      :class="{ 'is-active': Number(pageNumber) === Number(activePage) }"
       @click="changePage(pageNumber)"
     >
       {{ pageNumber }}
@@ -27,10 +27,12 @@
     <button
       class="app-pagination__button"
       data-test="next"
-      :class="{ 'is-disabled': Number(activePage) === pages }"
+      :class="{ 'is-disabled': Number(activePage) === pagesLength }"
       @click="
         changePage(
-          Number(activePage) === pages ? activePage : Number(activePage) + 1
+          Number(activePage) === pagesLength
+            ? activePage
+            : Number(activePage) + 1
         )
       "
     >
@@ -73,8 +75,60 @@ export default {
   },
 
   computed: {
-    pages() {
+    pagesLength() {
       return Math.ceil(this.itemsLength / this.limit) || 1;
+    },
+
+    paginationPages() {
+      if (this.pagesLength <= 6) {
+        return this.pagesLength;
+      }
+
+      let pages = [];
+
+      if (this.pagesLength > 6 && this.activePage < 4) {
+        for (let i = 1; i < 5; i++) {
+          pages.push(i);
+        }
+
+        pages.push(this.pagesLength);
+      }
+
+      if (this.pagesLength > 6 && this.activePage >= 4) {
+        /*
+          Вторая страница в пагинации
+          Если активная страница меньше (кол-во страниц - 1), возвращаем кол-во страниц - 1
+          Иначе возвращаем кол-во страниц - 3
+        */
+        const secondPage =
+          Number(this.activePage) < this.pagesLength - 1
+            ? Number(this.activePage) - 1
+            : this.pagesLength - 3;
+
+        /*
+          Третья страница в пагинации
+          Если активная страница меньше (кол-во страниц - 1), возвращаем текущую активную страницу
+          Иначе возвращаем кол-во страниц - 2
+        */
+        const thirdPage =
+          Number(this.activePage) < this.pagesLength - 1
+            ? Number(this.activePage)
+            : this.pagesLength - 2;
+
+        /*
+          Четвертая страница в пагинации
+          Если активная страница меньше (кол-во страниц - 1), возвращаем текущую активную страницу + 1
+          Иначе возвращаем кол-во страниц - 1
+        */
+        const fourthPage =
+          Number(this.activePage) < this.pagesLength - 1
+            ? Number(this.activePage) + 1
+            : this.pagesLength - 1;
+
+        pages = [1, secondPage, thirdPage, fourthPage, this.pagesLength];
+      }
+
+      return pages;
     },
   },
 
@@ -114,6 +168,11 @@ export default {
     margin-right: 6px;
     color: #8898aa;
     transition: background-color 0.3s;
+
+    @media (max-width: 576px) {
+      width: 30px;
+      height: 30px;
+    }
 
     &:last-child {
       margin-right: 0;
